@@ -304,8 +304,7 @@ private fun AddFeedSheet(
                 placeholder = { Text("https://example.com/feed.xml") },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Uri,
-                    autoCorrectEnabled = false
+                    keyboardType = KeyboardType.Uri
                 ),
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(14.dp)

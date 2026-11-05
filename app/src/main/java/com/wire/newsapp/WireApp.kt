@@ -1,6 +1,6 @@
 package com.wire.newsapp
 
-import androidx.activity.compose.LocalActivity
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -63,7 +63,7 @@ fun WireApp() {
         }
         // Status/navigation bar icons contrast
         val view = LocalView.current
-        val window = LocalActivity.current?.window
+        val window = (LocalContext.current as? Activity)?.window
         LaunchedEffect(darkTheme) {
             window?.let {
                 WindowInsetsControllerCompat(it, view).apply {

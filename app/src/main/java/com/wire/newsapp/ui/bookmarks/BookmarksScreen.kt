@@ -16,7 +16,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.rememberCoroutineScope
 import com.wire.newsapp.model.Article
 import com.wire.newsapp.ui.components.ArticleCard
 import com.wire.newsapp.ui.components.EmptyState

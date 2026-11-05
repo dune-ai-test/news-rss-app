@@ -1,6 +1,10 @@
 package com.wire.newsapp.ui.feed
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -31,7 +35,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun FeedScreen(
     viewModel: FeedViewModel,
@@ -75,10 +79,14 @@ fun FeedScreen(
             onRefresh = viewModel::refresh
         )
 
-        PullToRefreshBox(
-            isRefreshing = state.isRefreshing,
-            onRefresh = viewModel::refresh,
-            modifier = Modifier.weight(1f)
+        val pullState = rememberPullRefreshState(
+            refreshing = state.isRefreshing,
+            onRefresh = viewModel::refresh
+        )
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .pullRefresh(pullState)
         ) {
             LazyColumn(
                 state = listState,
@@ -156,6 +164,11 @@ fun FeedScreen(
                     }
                 }
             }
+            PullRefreshIndicator(
+                refreshing = state.isRefreshing,
+                state = pullState,
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
         }
     }
 }

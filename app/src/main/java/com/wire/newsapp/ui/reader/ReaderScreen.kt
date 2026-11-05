@@ -290,8 +290,8 @@ private fun ReaderBlockView(
                 text = block.text,
                 fontFamily = FontFamily.Default,
                 fontWeight = FontWeight.Bold,
-                fontSize = fontSize + 4.sp,
-                lineHeight = lineHeight + 4.sp,
+                fontSize = fontSize * 1.24f,
+                lineHeight = lineHeight * 1.12f,
                 letterSpacing = (-0.2).sp,
                 color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.padding(top = 14.dp, bottom = 4.dp)
