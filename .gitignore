@@ -1,0 +1,41 @@
+# Built application files
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# Files for the Dalvik VM
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+release/
+
+# Gradle files
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Local configuration file (SDK path)
+local.properties
+
+# IntelliJ / Android Studio
+*.iml
+.idea/
+.navigation/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Keystore files
+*.jks
+*.keystore
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Log Files
+*.log
