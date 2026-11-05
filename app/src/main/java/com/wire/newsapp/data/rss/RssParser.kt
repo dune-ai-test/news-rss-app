@@ -54,8 +54,8 @@ object RssParser {
         fun finishItem() {
             val cleanTitle = stripHtml(title)
             if (cleanTitle.isBlank()) return
-            val url = link.ifBlank { cleanTitle }
-            val summarySource = description.ifBlank { encoded.orEmpty() }
+            val url = if (link.isBlank()) cleanTitle else link
+            val summarySource = if (description.isBlank()) encoded.orEmpty() else description
             val summary = stripHtml(summarySource)
             val image = imageUrl ?: IMG_SRC.find(encoded.orEmpty())?.groupValues?.get(1)
                 ?: IMG_SRC.find(description)?.groupValues?.get(1)

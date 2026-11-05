@@ -130,7 +130,8 @@ object ReaderRepository {
     }
 
     private fun imageBlock(img: Element): ReaderBlock.BlockImage? {
-        val src = img.absUrl("src").ifBlank { img.absUrl("data-src") }
+        val absSrc = img.absUrl("src")
+        val src = if (absSrc.isBlank()) img.absUrl("data-src") else absSrc
         if (src.isBlank() || src.startsWith("data:")) return null
         if (img.attr("width").toIntOrNull()?.let { it < 200 } == true) return null
         val caption = (img.parent()?.selectFirst("figcaption")?.text()

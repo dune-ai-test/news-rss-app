@@ -122,7 +122,7 @@ fun ReaderScreen(
 
                     Spacer(Modifier.height(12.dp))
                     Text(
-                        text = article?.title?.ifBlank { content.title } ?: content.title,
+                        text = article?.title?.takeIf { it.isNotBlank() } ?: content.title,
                         fontFamily = FontFamily.Serif,
                         fontWeight = FontWeight.Bold,
                         fontSize = titleFontSize,
@@ -232,7 +232,7 @@ private fun ReaderTopBar(
             }
             Box(Modifier.weight(1f), contentAlignment = Alignment.Center) {
                 Text(
-                    text = sourceName.ifBlank { "Reader" }.uppercase(),
+                    text = sourceName.ifBlank { "Reader" }.toString().uppercase(),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1

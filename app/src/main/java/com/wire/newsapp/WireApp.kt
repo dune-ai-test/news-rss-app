@@ -25,6 +25,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.wire.newsapp.ui.bookmarks.BookmarksScreen
@@ -82,7 +83,7 @@ fun WireApp() {
         Scaffold(
             containerColor = MaterialTheme.colorScheme.background,
             bottomBar = {
-                if (currentRoute in tabRoutes) {
+                if (currentRoute != null && currentRoute in tabRoutes) {
                     WireBottomBar(
                         currentRoute = currentRoute,
                         bookmarkCount = bookmarkCount,

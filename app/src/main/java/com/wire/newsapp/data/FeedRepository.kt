@@ -4,6 +4,7 @@ import com.wire.newsapp.data.local.*
 import com.wire.newsapp.data.rss.RssParser
 import com.wire.newsapp.model.Article
 import com.wire.newsapp.model.FeedSource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -63,7 +64,7 @@ class FeedRepository(
         val sources = enabledSources()
         val results = coroutineScope {
             sources.map { source ->
-                async { source to fetchFeed(source) }
+                async(Dispatchers.IO) { source to fetchFeed(source) }
             }.awaitAll()
         }
 
