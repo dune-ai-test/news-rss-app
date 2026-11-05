@@ -63,11 +63,11 @@ jobs:
       - name: Create GitHub Release with APK
         uses: softprops/action-gh-release@v2
         with:
-          files: Wire-${GITHUB_REF_NAME}.apk
+          files: Wire-${{ github.ref_name }}.apk
           generate_release_notes: true
           body: |
-            ## Wire ${GITHUB_REF_NAME}
+            ## Wire ${{ github.ref_name }}
 
-            Download **Wire-${GITHUB_REF_NAME}.apk** below and sideload it on any Android 8.0+ device.
+            Download **Wire-${{ github.ref_name }}.apk** below and sideload it on any Android 8.0+ device.
 
             This is a debug build signed with the Android debug key — perfect for trying Wire out.
