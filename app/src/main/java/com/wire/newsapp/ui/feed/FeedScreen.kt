@@ -10,7 +10,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
@@ -91,8 +91,7 @@ fun FeedScreen(
             LazyColumn(
                 state = listState,
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(bottom = 28.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                contentPadding = PaddingValues(bottom = 28.dp)
             ) {
                 // Large title block (scrolls away)
                 item(key = "large_title") {
@@ -144,18 +143,16 @@ fun FeedScreen(
                         )
                     }
                 } else {
-                    itemsIndexed(
+                    items(
                         items = state.visible,
-                        key = { _, article -> article.link }
-                    ) { index, article ->
+                        key = { it.link }
+                    ) { article ->
                         ArticleCard(
                             article = article,
                             isBookmarked = article.link in state.bookmarkedIds,
                             onOpen = onOpenArticle,
                             onToggleBookmark = viewModel::toggleBookmark,
-                            onShare = { shareArticle(context, it) },
-                            featured = index == 0 && state.selectedCategory == FeedCatalog.ALL,
-                            modifier = Modifier.padding(horizontal = 16.dp)
+                            onShare = { shareArticle(context, it) }
                         )
                     }
 

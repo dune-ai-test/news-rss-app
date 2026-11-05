@@ -46,3 +46,10 @@ fun sourceColor(name: String): androidx.compose.ui.graphics.Color {
 
 fun hostOf(url: String): String =
     runCatching { java.net.URI(url).host?.removePrefix("www.") ?: url }.getOrDefault(url)
+
+/** "@theverge"-style handle derived from the article link. */
+fun handleOf(url: String): String =
+    runCatching {
+        val host = java.net.URI(url).host ?: return "@wire"
+        "@" + host.removePrefix("www.").substringBefore('.').ifBlank { "wire" }
+    }.getOrDefault("@wire")

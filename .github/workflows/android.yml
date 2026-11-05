@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write   # needed only for the tag-release job
+  contents: write
 
 concurrency:
   group: android-ci-${{ github.ref }}
@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build Debug APK
+    name: Build & Publish Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -38,36 +38,52 @@ jobs:
       - name: Build debug APK
         run: ./gradlew assembleDebug --stacktrace
 
-      - name: Upload debug APK
-        uses: actions/upload-artifact@v4
+      # ---------- Rolling release on main (this is how the APK ships) ----------
+      - name: Move `latest` tag to this commit
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git tag -f latest
+          git push -f origin latest
+
+      - name: Rename APK for rolling release
+        if: github.ref == 'refs/heads/main'
+        run: cp app/build/outputs/apk/debug/app-debug.apk Wire-latest.apk
+
+      - name: Publish "Wire — Latest build" rolling release
+        if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
         with:
-          name: wire-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
-          retention-days: 30
+          tag_name: latest
+          name: "Wire — Latest build (main)"
+          target_commitish: ${{ github.sha }}
+          prerelease: true
+          overwrite_files: true
+          body: |
+            🤖 Automated **debug** build of Wire from `main` @ `${{ github.sha }}`.
 
-  release:
-    name: Publish Release (tags only)
-    if: startsWith(github.ref, 'refs/tags/v')
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download APK artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: wire-debug-apk
+            ### Install
+            1. Download **Wire-latest.apk** below
+            2. On your Android phone enable *Install unknown apps* for your browser/file manager
+            3. Open the APK and install
 
-      - name: Rename APK
-        run: mv app-debug.apk "Wire-${GITHUB_REF_NAME}.apk"
+            _Debug-signed, for trying Wire out. Versioned, stable-ish drops live under tagged releases (v*)._
+          files: Wire-latest.apk
 
-      - name: Create GitHub Release with APK
+      # ---------- Versioned releases on v* tags ----------
+      - name: Rename APK for tagged release
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: cp app/build/outputs/apk/debug/app-debug.apk "Wire-${GITHUB_REF_NAME}.apk"
+
+      - name: Publish versioned release with APK
+        if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
           files: Wire-${{ github.ref_name }}.apk
           generate_release_notes: true
+          overwrite_files: true
           body: |
             ## Wire ${{ github.ref_name }}
 
             Download **Wire-${{ github.ref_name }}.apk** below and sideload it on any Android 8.0+ device.
 
-            This is a debug build signed with the Android debug key — perfect for trying Wire out.
+            This is a debug build signed with the Android debug key — for trying Wire out.

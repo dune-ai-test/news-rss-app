@@ -26,9 +26,11 @@ No ads. No accounts. No tracking. Just your feeds, beautifully rendered.
 
 ## 📱 Features
 
-- **Social-style infinite feed** — card-based timeline with mixed hero/compact cards,
-  pull-to-refresh, and endless scroll with a "load more" pager and an
-  *"All caught up"* end mark.
+- **Twitter/X-style infinite timeline** — nothing between you and the news:
+  big round source avatars, **verified** badges, `@handles`, bold headlines,
+  gray preview text, full-width rounded media when a story has one (pure text
+  otherwise), hairline dividers — with pull-to-refresh and endless scroll
+  ending in *"All caught up"*.
 - **In-app Reader view** — a Safari-Reader-style experience: serif typography,
   generous margins, hero image, reading time, estimated progress, `Aa` text-size
   cycler, and end-of-article marker. Extraction is readability-style (Jsoup +
